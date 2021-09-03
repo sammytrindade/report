@@ -23,7 +23,7 @@ type register struct {
 
 var registers = []register{
 
-	{cpf: 58444096358, name: "Ted", age:  35, state: "Rio de Janeiro", report: "violência doméstica"},
+	{cpf: "8444096358", name: "Ted", age:  35, state: "Rio de Janeiro", report: "violência doméstica"},
 
 }
 
