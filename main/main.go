@@ -20,30 +20,30 @@ func main() {
 	http.ListenAndServe(":8080", router)
 }
 
-func Reports(w http.ResponseWriter, request *http.Request) {
-	json.NewEncoder(w).Encode(register)
+func Reports(response http.ResponseWriter, request *http.Request) {
+	json.NewEncoder(response).Encode(register)
 }
-func Report(w http.ResponseWriter, request *http.Request) {
+func Report(response http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	for _, item := range register {
 		if item.ID == params["id"] {
-			json.NewEncoder(w).Encode(item)
+			json.NewEncoder(response).Encode(item)
 			return
 		}
 	}
 
-	json.NewEncoder(w).Encode(register)
+	json.NewEncoder(response).Encode(register)
 
 }
-func CreateReport(w http.ResponseWriter, request *http.Request) {
+func CreateReport(response http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	var registred Register
 	_ = json.NewDecoder(request.Body).Decode(&Register{})
 	registred.ID = params["id"]
 	register = append(register, registred)
-	json.NewEncoder(w).Encode(register)
+	json.NewEncoder(response).Encode(register)
 }
-func DeleteReport(w http.ResponseWriter, request *http.Request) {
+func DeleteReport(response http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	for index, item := range register {
 		if item.ID == params["id"] {
@@ -51,7 +51,7 @@ func DeleteReport(w http.ResponseWriter, request *http.Request) {
 			break
 
 		}
-		json.NewEncoder(w).Encode(register)
+		json.NewEncoder(response).Encode(register)
 	}
 
 }
