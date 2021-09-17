@@ -6,42 +6,82 @@ import (
 	"net/http"
 )
 
+var register []Register
+
 func main() {
+
 	router := mux.NewRouter()
-	//router.HandleFunc("/start", report)
+	router.HandleFunc("/registro", Reports).Methods("GET")
+	router.HandleFunc("/registro/{id}", Report).Methods("GET")
+	router.HandleFunc("/registro/{id}", CreateReport).Methods("POST")
+	router.HandleFunc("/registro{id}", DeleteReport).Methods("DELETE")
+	AppendRegisters()
 
 	http.ListenAndServe(":8080", router)
 }
 
-type register struct {
-	cpf    string //(Queria colocar o CPF como ID, provalmente só consiga fazer isso com banco. Ainda não encontrei)
-	name   string
-	age    int64
-	state  string
-	report string
+func Reports(w http.ResponseWriter, request *http.Request) {
+	json.NewEncoder(w).Encode(register)
+}
+func Report(w http.ResponseWriter, request *http.Request) {
+	params := mux.Vars(request)
+	for _, item := range register {
+		if item.ID == params["id"] {
+			json.NewEncoder(w).Encode(item)
+			return
+		}
+	}
+
+	json.NewEncoder(w).Encode(register)
+
+}
+func CreateReport(w http.ResponseWriter, request *http.Request) {
+	params := mux.Vars(request)
+	var registred Register
+	_ = json.NewDecoder(request.Body).Decode(&Register{})
+	registred.ID = params["id"]
+	register = append(register, registred)
+	json.NewEncoder(w).Encode(register)
+}
+func DeleteReport(w http.ResponseWriter, request *http.Request) {
+	params := mux.Vars(request)
+	for index, item := range register {
+		if item.ID == params["id"] {
+			register = append(register[:index], register[index+1:]...)
+			break
+
+		}
+		json.NewEncoder(w).Encode(register)
+	}
+
+}
+func AppendRegisters() {
+	register = append(register, Register{"Comércio Ilegal", &Applicant{"1", "Ana", "Sara", 21},
+		&Address{"Rio de Janeiro", "Rio de Janeiro"}})
+
+	register = append(register, Register{"Violência Doméstica", &Applicant{"2", "Joana", "Almeida", 45},
+		&Address{"Espirito Santo", "Vitória"}})
+
+	register = append(register, Register{"Roubo", &Applicant{"3", "Roberto", "Joaquim", 35},
+		&Address{"São Paulo", "Campinas"}})
+
 }
 
-//var registers = []register{
-
-//	{cpf: "8444096358", name: "Ted", age:  35, state: "Rio de Janeiro", report: "violência doméstica"},
-//	{cpf: "9547078545", name: "Robin", age:  35, state: "São Paulo", report: "roubo"},
-//Poderia usar Map aqui também? (Estudar e analisar LISTA E MAP para procedimento
-//}
-
-
-var register1 = register{
-
-	("15092785958"),("Joana"),28, "Paraná", "Assalto",
+type Register struct {
+	Report string
+	*Applicant
+	*Address
 }
 
-var register2 = register{
-
-	("894556215415"),("Fred"),18, "Minas Gerais", "Maus tratos",
+type Applicant struct {
+	ID        string //`json: "id, omitempty"`
+	Firstname string
+	Lastname  string
+	//CPF       string
+	Age int32
 }
 
-var registers[] = register(register1,register2)
-
-func report(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(registers)
-
+type Address struct {
+	State string
+	City  string
 }
