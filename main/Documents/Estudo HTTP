@@ -1,0 +1,114 @@
+--------------------------------------------------------
+
+IP - como a informação vai chegar até o destino.
+
+TCP - Reordena os pacotes para info chegar no navegador.
+
+
+- Aplicação -
+HTTP
+FTP
+SMTP
+DACP
+
+- Transporte -
+TCP / UDP
+
+- Rede -
+Protocolo IP
+
+- Hardware -
+Mensagem que vira sinal eletrônico para o destino.
+
+----------------------------------------------------
+
+O protocolo TCP envia pacotes para uma porta no servidor.
+
+Para fazer a interpretação dessas mensagens, utiliza-se o http.
+
+----------------------------------------------------
+HTTP é um protocolo de requisição e resposta.
+
+Request é composto pelos seguintes blocos:
+
+- Linha do pedido
+
+* Método
+  GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, CONNECT.
+
+  GET - Usado para pegar o recurso, listar usuários.
+  POST - Cadastrar alguém, enviar dados para alguém.
+  PUT - Editar um usuário
+  DELETE - Deletar um recurso/usuário
+  PATCH - Editar um recurso, mas alterar só um valor do usuário e não nele inteiro ( dúvida com MAP)
+  OPTIONS - Pegar informações sobre se o servidor tem tal característica para aquilo funcionar.
+  HEAD - Faz pedido, mas só quer retornar o cabeçalho, sem o corpo da mensagem.
+  TRACE - Retorna exatamente as info que chegou no servidor. Para ver se a mensagem que você mandou foi a mesma sem alteração.
+  CONNECT -
+
+* Recurso
+  / <- é a raiz, mas poderia ser /user, por exemplo.
+
+* Versão HTTP
+  HTTP/1.1
+
+Exemplo:
+GET /HTTP/1.1
+POST /contato HTTP/1.1
+
+- Cabeçalhos gerais
+ (Tanto no request quanto no response, os cabeçalhos são os mesmos)
+
+Date, Pragma, Cache-Control, Connection, Trailer, Transfer-Encoding,
+Upgrade, Via, Warning
+
+
+- Cabeçalhos de pedido
+
+* Preferência de resposta
+  Accept,
+  Accept-Charset,
+  Accept-Encoding,
+  Accept-Language,
+  TE,
+
+* Informações enviadas com pedido
+  Authorization,
+  From,
+  Referer,
+  User-Agent,
+
+* Pedido Condicional
+  Proxy-Authorization,
+  If-Modified-Since,
+  If-Match,
+  If-None-Match,
+  If-Unmodified-Since,
+  If-Range,
+
+* Restrição no Servidor
+  Expect,
+  Host, (Obrigatório passar)
+  Max-Forwards,
+  Range,
+
+Exemplo:
+Accept-Language: pt-br
+Host: localhost:8080
+User-Agent: Mozilla
+
+- Cabeçalhos de entidade (Corpo da mensagem, o que é a informação)
+
+
+- Entidade (valores)
+
+Mensagem HTTP:
+GET / HTTP/1.1
+Date:
+Cache-control: no-cache
+Connection: keep-alive
+Accept-language: pt-br
+Host: http://localhost:8080
+User-Agent: Mozilla
+Accept: text/html
+

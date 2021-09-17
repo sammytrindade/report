@@ -1,0 +1,12 @@
+- Incluir um looping para criação de novas denúncias;
+  Enquanto verdadeiro, faça cadastro de novas denúncia;
+
+- Criar uma lista de denúncias e passar as denúncias já existentes por parâmetro e depois
+  chamar essa lista para exibir o get.
+
+- Usar map para buscar valor? (Diferença entre map e lista)
+
+
+- Endpoints
+xxxxxxx Produtos/Rotas?
+
